@@ -1,0 +1,42 @@
+name: 'build' 
+on: # rebuild any PRs and main branch changes
+  push:
+    tags:
+      - 'v**'
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      packages: write
+
+    steps:
+
+      - name: Checkout (GitHub)
+        uses: actions/checkout@v3
+
+      - name: Build
+        run: podman unshare make container-build
+      - name: Buildah Action
+        uses: redhat-actions/buildah-build@v2.12
+        with:
+          image: whynotea/cpp-examples
+          tags: latest ${{ github.ref_name }}
+          containerfiles:
+            ./Containerfile
+      - name: Podman Login
+        uses: redhat-actions/podman-login@v1.6
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Push To Registry
+        uses: redhat-actions/push-to-registry@v2.7
+        with:
+          image: whynotea/gitkraken
+          tags: latest ${{ github.ref_name }}
+          registry: ghcr.io
