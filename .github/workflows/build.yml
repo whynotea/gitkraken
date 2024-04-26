@@ -17,25 +17,25 @@ jobs:
     steps:
 
       - name: Checkout (GitHub)
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Build
         run: podman unshare make container-build
       - name: Buildah Action
-        uses: redhat-actions/buildah-build@v2.12
+        uses: redhat-actions/buildah-build@v2.13
         with:
-          image: whynotea/cpp-examples
+          image: whynotea/gitkraken
           tags: latest ${{ github.ref_name }}
           containerfiles:
             ./Containerfile
       - name: Podman Login
-        uses: redhat-actions/podman-login@v1.6
+        uses: redhat-actions/podman-login@v1.7
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Push To Registry
-        uses: redhat-actions/push-to-registry@v2.7
+        uses: redhat-actions/push-to-registry@v2.8
         with:
           image: whynotea/gitkraken
           tags: latest ${{ github.ref_name }}
