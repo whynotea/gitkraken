@@ -1,0 +1,41 @@
+services:
+  gitkraken:
+    image: ghcr.io/whynotea/gitkraken:latest
+    name: gitkraken
+    privileged: true
+    volumes:
+      - type: bind
+        source: /mnt/wslg/.X11-unix
+        target: /tmp/.X11-unix
+      - type: bind
+        source: /mnt/wslg
+        target: /mnt/wslg
+      - type: bind
+        source: $HOME/github
+        target: /root/github
+      - type: bind
+        source: $HOME/github
+        target: /root/github
+      - type: bind
+        source: $HOME/.gitconfig
+        target: /root/.gitconfig
+      - type: bind
+        source: $HOME/.gitkraken
+        target: /root/.gitkraken
+      - type: bind
+        source: $HOME/.config
+        target: /root/.config
+    environment:
+      - DISPLAY=:0
+      - WAYLAND_DISPLAY=wayland-0
+      - XDG_RUNTIME_DIR=/mnt/wslg/runtime-dir
+      - PULSE_SERVER=unix:/mnt/wslg/PulseServer
+    entrypoint: /usr/share/gitkraken/gitkraken --no-sandbox --disable-gpu
+    command: /usr/share/gitkraken/gitkraken --no-sandbox --disable-gpu
+    tty: true
+    networks:
+      - gitkraken-internal
+networks:
+  gitkraken-internal:
+    name: gitkraken-internal
+    internal: true
