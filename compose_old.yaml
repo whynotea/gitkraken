@@ -11,13 +11,13 @@ services:
         source: /mnt/wslg
         target: /mnt/wslg
       - type: bind
-        source: $HOME/github
-        target: /home/whynotea/github
+        source: $HOME/dev
+        target: /home/whynotea/dev
       - type: bind
         source: $HOME/.gitconfig
         target: /root/.gitconfig
       - type: bind
-        source: $HOME/.gitkraken2
+        source: $HOME/.gitkraken
         target: /root/.gitkraken
       - type: bind
         source: $HOME/.config
