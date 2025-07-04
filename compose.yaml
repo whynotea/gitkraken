@@ -1,6 +1,6 @@
 services:
   gitkraken:
-    image: whynotea/gitkraken:ubuntu-24.04
+    image: whynotea/gitkraken:ubuntu-22.04
     name: gitkraken
     privileged: true
     volumes:
